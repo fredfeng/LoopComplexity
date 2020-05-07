@@ -1,0 +1,195 @@
+WARNING: Failed to find function "__sanitizer_print_stack_trace".
+Dictionary: 4 entries
+INFO: Seed: 1836909505
+INFO: Loaded 1 modules (6545 guards): [0x6fc950, 0x702f94), 
+Loading corpus dir: incorpus/
+INFO: -max_len is not provided, using 64
+INFO: A corpus is not provided, starting from an empty corpus
+#0	READ units: 1
+[0] Slow unit. InsCount: 836 It:1
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+#1	INITED cov: 265 raw_edges: 836 corp: 1/1b exec/s: 0 rss: 8Mb
+[1] Slow unit. InsCount: 838 It:5
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-bdf991df8ada45432a90e7648e87d0ed66e7d801
+#5	NEW    cov: 269 raw_edges: 838 corp: 2/36b exec/s: 0 rss: 9Mb L: 35 MS: 4 1-7-1-2-
+Mut:2 (Score: 0)/ Previous unit written to inout/before-mutation-bdf991df8ada45432a90e7648e87d0ed66e7d801
+[320] Slow unit. InsCount: 861 It:4813
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-4d542ad950949373c99c8ab1cb70ac4753da5bab
+#4813	NEW    cov: 288 raw_edges: 861 corp: 3/89b exec/s: 0 rss: 9Mb L: 53 MS: 2 7-8-
+Mut:8 (Score: 0)/ Previous unit written to inout/before-mutation-4d542ad950949373c99c8ab1cb70ac4753da5bab
+[324] Slow unit. InsCount: 886 It:4863
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-929396dfc7e99c138fd10f00d0d7bf87484b04a5
+#4863	NEW    cov: 288 raw_edges: 886 corp: 4/153b exec/s: 0 rss: 9Mb L: 64 MS: 2 4-9-
+Mut:9 (Score: 0)/ Previous unit written to inout/before-mutation-929396dfc7e99c138fd10f00d0d7bf87484b04a5
+[346] Slow unit. InsCount: 910 It:5194
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-0c4e1c52b2090fdf512e12bbd1bd273dc5610a71
+#5194	NEW    cov: 289 raw_edges: 910 corp: 5/217b exec/s: 0 rss: 9Mb L: 64 MS: 3 4-5-7-
+Mut:7 (Score: 0)/ Previous unit written to inout/before-mutation-0c4e1c52b2090fdf512e12bbd1bd273dc5610a71
+[370] Slow unit. InsCount: 935 It:5543
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-82c65fc8a4ef3cc404a876578e28593c1841b526
+#5543	NEW    cov: 289 raw_edges: 935 corp: 6/281b exec/s: 0 rss: 9Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 1)/ Previous unit written to inout/before-mutation-82c65fc8a4ef3cc404a876578e28593c1841b526
+[379] Slow unit. InsCount: 959 It:5668
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-678858b2f5396aeb158e5eaeb819a192a764e48a
+#5668	NEW    cov: 313 raw_edges: 959 corp: 7/345b exec/s: 0 rss: 9Mb L: 64 MS: 2 6-8-
+Mut:8 (Score: 2)/ Previous unit written to inout/before-mutation-678858b2f5396aeb158e5eaeb819a192a764e48a
+[524] Slow unit. InsCount: 960 It:7793
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-d9c34c4c3c92955a563808fd477c911c6cec22fa
+#7793	NEW    cov: 313 raw_edges: 960 corp: 8/409b exec/s: 0 rss: 9Mb L: 64 MS: 2 10-8- DE: "html"-
+Mut:8 (Score: 3)/ Previous unit written to inout/before-mutation-d9c34c4c3c92955a563808fd477c911c6cec22fa
+[534] Slow unit. InsCount: 983 It:7938
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-460e6f011fc6bcab35fbabed7b94e78d2abe36cf
+#7938	NEW    cov: 313 raw_edges: 983 corp: 9/473b exec/s: 0 rss: 10Mb L: 64 MS: 2 4-9-
+Mut:9 (Score: 1)/ Previous unit written to inout/before-mutation-460e6f011fc6bcab35fbabed7b94e78d2abe36cf
+[552] Slow unit. InsCount: 1030 It:8191
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-ba5f71f19492d89ba814308dd0a22a2b3b007f70
+#8191	NEW    cov: 313 raw_edges: 1030 corp: 10/537b exec/s: 0 rss: 10Mb L: 64 MS: 5 7-3-12-10-8- DE: "html"-"href"-
+Mut:8 (Score: 4)/ Previous unit written to inout/before-mutation-ba5f71f19492d89ba814308dd0a22a2b3b007f70
+[558] Slow unit. InsCount: 1031 It:8277
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-a01af104f9d9c50b125ea84f996d65d5f58dcdbe
+#8277	NEW    cov: 313 raw_edges: 1031 corp: 11/601b exec/s: 0 rss: 10Mb L: 64 MS: 1 8-
+Mut:8 (Score: 5)/ Previous unit written to inout/before-mutation-a01af104f9d9c50b125ea84f996d65d5f58dcdbe
+[571] Slow unit. InsCount: 1054 It:8462
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-dae9b8e087f2dca7f70b1256bc3f7647e800de80
+#8462	NEW    cov: 313 raw_edges: 1054 corp: 12/665b exec/s: 0 rss: 10Mb L: 64 MS: 1 8-
+Mut:8 (Score: 6)/ Previous unit written to inout/before-mutation-dae9b8e087f2dca7f70b1256bc3f7647e800de80
+[582] Slow unit. InsCount: 1078 It:8618
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-9d8d0619829e7cecf9ffbd3169658f92ce9b135d
+#8618	NEW    cov: 313 raw_edges: 1078 corp: 13/729b exec/s: 0 rss: 10Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 7)/ Previous unit written to inout/before-mutation-9d8d0619829e7cecf9ffbd3169658f92ce9b135d
+[586] Slow unit. InsCount: 1127 It:8674
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-468408d38e4c0021a1898e4fb56d79c33f3dd607
+#8674	NEW    cov: 313 raw_edges: 1127 corp: 14/793b exec/s: 0 rss: 10Mb L: 64 MS: 3 7-6-9-
+Mut:9 (Score: 2)/ Previous unit written to inout/before-mutation-468408d38e4c0021a1898e4fb56d79c33f3dd607
+[671] Slow unit. InsCount: 1176 It:9909
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-760e94db23d27cd37240bccbd3f5b4383c62000d
+#9909	NEW    cov: 313 raw_edges: 1176 corp: 15/855b exec/s: 0 rss: 10Mb L: 62 MS: 3 0-8-8-
+Mut:8 (Score: 8)/ Previous unit written to inout/before-mutation-760e94db23d27cd37240bccbd3f5b4383c62000d
+[676] Slow unit. InsCount: 1200 It:9973
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-98be0977e8c81838096fcfd91bc10e328ae71bb8
+#9973	NEW    cov: 313 raw_edges: 1200 corp: 16/918b exec/s: 0 rss: 10Mb L: 63 MS: 2 5-8-
+Mut:8 (Score: 9)/ Previous unit written to inout/before-mutation-98be0977e8c81838096fcfd91bc10e328ae71bb8
+[747] Slow unit. InsCount: 1225 It:11002
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-758d30f3ae7c4482fd217ad810d7bb1ad8f9c828
+#11002	NEW    cov: 313 raw_edges: 1225 corp: 17/982b exec/s: 0 rss: 10Mb L: 64 MS: 1 9-
+Mut:9 (Score: 3)/ Previous unit written to inout/before-mutation-758d30f3ae7c4482fd217ad810d7bb1ad8f9c828
+[773] Slow unit. InsCount: 1273 It:11368
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-0395c70d36c53fdf6e0af73da493c7d518b1f0cb
+#11368	NEW    cov: 313 raw_edges: 1273 corp: 18/1046b exec/s: 0 rss: 10Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 10)/ Previous unit written to inout/before-mutation-0395c70d36c53fdf6e0af73da493c7d518b1f0cb
+[786] Slow unit. InsCount: 1297 It:11552
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-1d0d14b32f78bff64108eb79c711d3805a5aecb1
+#11552	NEW    cov: 313 raw_edges: 1297 corp: 19/1110b exec/s: 0 rss: 10Mb L: 64 MS: 1 8-
+Mut:8 (Score: 11)/ Previous unit written to inout/before-mutation-1d0d14b32f78bff64108eb79c711d3805a5aecb1
+[787] Slow unit. InsCount: 1299 It:11564
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-0d73607d0d49199e5d7ef3652bffe2e7d2176626
+#11564	NEW    cov: 313 raw_edges: 1299 corp: 20/1174b exec/s: 0 rss: 10Mb L: 64 MS: 3 5-12-8- DE: "html"-
+Mut:8 (Score: 12)/ Previous unit written to inout/before-mutation-0d73607d0d49199e5d7ef3652bffe2e7d2176626
+[811] Slow unit. InsCount: 1322 It:11903
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-92efb8754e7369f2b9e917ece5ed65c62d85a55a
+#11903	NEW    cov: 313 raw_edges: 1322 corp: 21/1238b exec/s: 0 rss: 10Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 13)/ Previous unit written to inout/before-mutation-92efb8754e7369f2b9e917ece5ed65c62d85a55a
+[846] Slow unit. InsCount: 1345 It:12399
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-c2f5b694ab44959985d76fc2136443d7bc79b712
+#12399	NEW    cov: 313 raw_edges: 1345 corp: 22/1302b exec/s: 0 rss: 10Mb L: 64 MS: 3 8-5-8-
+Mut:8 (Score: 14)/ Previous unit written to inout/before-mutation-c2f5b694ab44959985d76fc2136443d7bc79b712
+[847] Slow unit. InsCount: 1369 It:12409
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-ee48908f4522d7f8bbc5cbd093ea1547bbec4078
+#12409	NEW    cov: 313 raw_edges: 1369 corp: 23/1366b exec/s: 0 rss: 10Mb L: 64 MS: 3 9-4-8-
+Mut:8 (Score: 15)/ Previous unit written to inout/before-mutation-ee48908f4522d7f8bbc5cbd093ea1547bbec4078
+[889] Slow unit. InsCount: 1370 It:13002
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-ed904cb4364cb7abd83ab246816718838b53c68b
+#13002	NEW    cov: 313 raw_edges: 1370 corp: 24/1430b exec/s: 0 rss: 10Mb L: 64 MS: 1 8-
+Mut:8 (Score: 16)/ Previous unit written to inout/before-mutation-ed904cb4364cb7abd83ab246816718838b53c68b
+[890] Slow unit. InsCount: 1441 It:13014
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-c0ddf79fc490eae9ef4c87329cde8332a38c1629
+#13014	NEW    cov: 313 raw_edges: 1441 corp: 25/1494b exec/s: 0 rss: 10Mb L: 64 MS: 3 3-5-8-
+Mut:8 (Score: 17)/ Previous unit written to inout/before-mutation-c0ddf79fc490eae9ef4c87329cde8332a38c1629
+[940] Slow unit. InsCount: 1465 It:13713
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-2df513772920ce81964a22dd292aee23f54b0946
+#13713	NEW    cov: 313 raw_edges: 1465 corp: 26/1558b exec/s: 0 rss: 10Mb L: 64 MS: 2 3-7-
+Mut:7 (Score: 1)/ Previous unit written to inout/before-mutation-2df513772920ce81964a22dd292aee23f54b0946
+[943] Slow unit. InsCount: 1489 It:13765
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-a13d1c81dcbbf8b861ebd8bc6109fe233fa8fd4d
+#13765	NEW    cov: 313 raw_edges: 1489 corp: 27/1622b exec/s: 0 rss: 10Mb L: 64 MS: 4 5-0-3-8-
+Mut:8 (Score: 18)/ Previous unit written to inout/before-mutation-a13d1c81dcbbf8b861ebd8bc6109fe233fa8fd4d
+[993] Slow unit. InsCount: 1490 It:14453
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-c3574cbd2dc42b89792dac38db46082ae4297337
+#14453	NEW    cov: 313 raw_edges: 1490 corp: 28/1686b exec/s: 0 rss: 10Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 19)/ Previous unit written to inout/before-mutation-c3574cbd2dc42b89792dac38db46082ae4297337
+[1067] Slow unit. InsCount: 1584 It:15499
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-28a00c6ee18531c4920bad5059eabe4027ed074f
+#15499	NEW    cov: 313 raw_edges: 1584 corp: 29/1740b exec/s: 15499 rss: 10Mb L: 54 MS: 3 3-0-2-
+Mut:2 (Score: 1)/ Previous unit written to inout/before-mutation-28a00c6ee18531c4920bad5059eabe4027ed074f
+[1115] Slow unit. InsCount: 1681 It:16168
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-5616b5658a8d45c29d8e7a98f6fccb96500883c8
+#16168	NEW    cov: 313 raw_edges: 1681 corp: 30/1804b exec/s: 16168 rss: 11Mb L: 64 MS: 2 3-8-
+Mut:8 (Score: 20)/ Previous unit written to inout/before-mutation-5616b5658a8d45c29d8e7a98f6fccb96500883c8
+[1153] Slow unit. InsCount: 1777 It:16704
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-899e154c5a7cf7261b2a96e1121616ff93761103
+#16704	NEW    cov: 313 raw_edges: 1777 corp: 31/1868b exec/s: 16704 rss: 11Mb L: 64 MS: 3 7-2-8-
+Mut:8 (Score: 21)/ Previous unit written to inout/before-mutation-899e154c5a7cf7261b2a96e1121616ff93761103
+[1254] Slow unit. InsCount: 1799 It:18130
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-72b1c80e43a4e55e2097290884549c9c72d72a14
+#18130	NEW    cov: 313 raw_edges: 1799 corp: 32/1932b exec/s: 18130 rss: 11Mb L: 64 MS: 4 5-7-3-8-
+Mut:8 (Score: 22)/ Previous unit written to inout/before-mutation-72b1c80e43a4e55e2097290884549c9c72d72a14
+[1263] Slow unit. InsCount: 1871 It:18247
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-430dd8968482e4d1762dba08b396296549a14184
+#18247	NEW    cov: 313 raw_edges: 1871 corp: 33/1996b exec/s: 18247 rss: 11Mb L: 64 MS: 1 8-
+Mut:8 (Score: 23)/ Previous unit written to inout/before-mutation-430dd8968482e4d1762dba08b396296549a14184
+[1274] Slow unit. InsCount: 1894 It:18398
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-905a8ea40830fdef8e9b7ff339dab9ea1d15b99b
+#18398	NEW    cov: 313 raw_edges: 1894 corp: 34/2060b exec/s: 18398 rss: 11Mb L: 64 MS: 2 7-8-
+Mut:8 (Score: 24)/ Previous unit written to inout/before-mutation-905a8ea40830fdef8e9b7ff339dab9ea1d15b99b
+[1288] Slow unit. InsCount: 2014 It:18588
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-148876c48862b686104139d4156e20db7fe0142e
+#18588	NEW    cov: 313 raw_edges: 2014 corp: 35/2124b exec/s: 18588 rss: 11Mb L: 64 MS: 2 4-8-
+Mut:8 (Score: 25)/ Previous unit written to inout/before-mutation-148876c48862b686104139d4156e20db7fe0142e
+[1376] Slow unit. InsCount: 2038 It:19809
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-1d84c0e2ce841ff6e7db8aa221dafb5c4ffb7eaa
+#19809	NEW    cov: 313 raw_edges: 2038 corp: 36/2188b exec/s: 19809 rss: 11Mb L: 64 MS: 3 3-6-8-
+Mut:8 (Score: 26)/ Previous unit written to inout/before-mutation-1d84c0e2ce841ff6e7db8aa221dafb5c4ffb7eaa
+[1398] Slow unit. InsCount: 2110 It:20098
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-d83b4bec6c38d00ce87aa82dac6489da9032fe33
+#20098	NEW    cov: 313 raw_edges: 2110 corp: 37/2252b exec/s: 20098 rss: 11Mb L: 64 MS: 2 6-8-
+Mut:8 (Score: 27)/ Previous unit written to inout/before-mutation-d83b4bec6c38d00ce87aa82dac6489da9032fe33
+[1902] Slow unit. InsCount: 2134 It:27102
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-deb0bda4cc8e43ab7b30682129e8449bc1f0a19c
+#27102	NEW    cov: 313 raw_edges: 2134 corp: 38/2316b exec/s: 27102 rss: 12Mb L: 64 MS: 1 8-
+Mut:8 (Score: 28)/ Previous unit written to inout/before-mutation-deb0bda4cc8e43ab7b30682129e8449bc1f0a19c
+#32768	pulse  cov: 313 raw_edges: 2134 corp: 38/2316b exec/s: 16384 rss: 13Mb
+[2495] Slow unit. InsCount: 2182 It:35332
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-3faa0da0158efe6c05d6ee1878b23b8128fdbaed
+#35332	NEW    cov: 313 raw_edges: 2182 corp: 39/2380b exec/s: 17666 rss: 13Mb L: 64 MS: 1 8-
+Mut:8 (Score: 29)/ Previous unit written to inout/before-mutation-3faa0da0158efe6c05d6ee1878b23b8128fdbaed
+#65536	pulse  cov: 313 raw_edges: 2182 corp: 39/2380b exec/s: 16384 rss: 16Mb
+[6779] Slow unit. InsCount: 2206 It:94662
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-932312f9a2a182028ce56aa3ebcc9670ba49755b
+#94662	NEW    cov: 313 raw_edges: 2206 corp: 40/2444b exec/s: 15777 rss: 20Mb L: 64 MS: 1 8-
+Mut:8 (Score: 30)/ Previous unit written to inout/before-mutation-932312f9a2a182028ce56aa3ebcc9670ba49755b
+#131072	pulse  cov: 313 raw_edges: 2206 corp: 40/2444b exec/s: 14563 rss: 24Mb
+#262144	pulse  cov: 313 raw_edges: 2206 corp: 40/2444b exec/s: 14563 rss: 40Mb
+[21452] Slow unit. InsCount: 2207 It:297277
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-0dbd7cd64067b6418b34fde7db7ddc5d3a5705a1
+#297277	NEW    cov: 313 raw_edges: 2207 corp: 41/2508b exec/s: 14156 rss: 44Mb L: 64 MS: 1 3-
+Mut:3 (Score: 0)/ Previous unit written to inout/before-mutation-0dbd7cd64067b6418b34fde7db7ddc5d3a5705a1
+#524288	pulse  cov: 313 raw_edges: 2207 corp: 41/2508b exec/s: 14169 rss: 72Mb
+#1048576	pulse  cov: 313 raw_edges: 2207 corp: 41/2508b exec/s: 13797 rss: 135Mb
+[81151] Slow unit. InsCount: 2208 It:1118749
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-68322556ca8f918148913d7f2703ec70f5ad2b2a
+#1118749	NEW    cov: 313 raw_edges: 2208 corp: 42/2572b exec/s: 13811 rss: 144Mb L: 64 MS: 3 8-3-4-
+Mut:4 (Score: 0)/ Previous unit written to inout/before-mutation-68322556ca8f918148913d7f2703ec70f5ad2b2a
+[82755] Slow unit. InsCount: 2225 It:1140802
+artifact_prefix='inout/'; Test unit written to inout/slow-unit-a44d468f4175e462e03820f2544b75504fc2bee1
+#1140802	NEW    cov: 313 raw_edges: 2225 corp: 43/2636b exec/s: 13912 rss: 146Mb L: 64 MS: 1 10- DE: "script"-
+Mut:10 (Score: 0)/ Previous unit written to inout/before-mutation-a44d468f4175e462e03820f2544b75504fc2bee1
+#2097152	pulse  cov: 313 raw_edges: 2225 corp: 43/2636b exec/s: 13797 rss: 262Mb
+#4194304	pulse  cov: 313 raw_edges: 2225 corp: 43/2636b exec/s: 13751 rss: 515Mb
+#8388608	pulse  cov: 313 raw_edges: 2225 corp: 43/2636b exec/s: 13751 rss: 1022Mb
+#10000000	DONE   cov: 313 raw_edges: 2225 corp: 43/2636b exec/s: 13755 rss: 1217Mb
+Done 10000000 runs in 727 second(s)
+stat::number_of_executed_units: 10000000
+stat::average_exec_per_sec:     13755
+stat::new_units_added:          42
+stat::slowest_unit_time_sec:    0
+stat::peak_rss_mb:              1217

@@ -1,0 +1,1 @@
+(?i)[\s\S](?:x(?:link:href|html|mlns)|!ENTITY.*?SYSTEM|data:text\/html|pattern(?=.*?=)|formaction|\@import|base64)[\s\S]

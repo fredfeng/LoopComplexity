@@ -1,0 +1,750 @@
+<project name="SingularityBenchmarks" basedir=".">
+    <property name="jar.instrument" value="lib/CostInstrument.jar"/>
+    <property name="jar.cost" value="lib/cost.jar"/>
+    <property name="jar.jarjar" value="lib/jarjar.jar"/>
+    <property name="classesroot.dir" value="out/production"/>
+    <property name="benchroot.dir" value="benchmarks"/>
+    <property name="artifact.original.dir" value="out/artifact/original"/>
+    <property name="artifact.instrumented.dir"
+              value="out/artifact/instrumented"/>
+
+    <target name="jarjar.init"
+            description="Jarjar taskdef">
+        <taskdef name="jarjar"
+                 classname="com.tonicsystems.jarjar.JarJarTask"
+                 classpath="lib/slf4j-nop-1.7.12.jar:lib/slf4j-api-1.7.12.jar:lib/asm-5.0.3.jar:lib/asm-commons-5.0.3.jar:lib/asm-util-5.0.3.jar:lib/jarjar-core-1.0.0.jar:lib/jarjar-ant-1.0.0.jar"/>
+    </target>
+
+    <target name="costinstr.init"
+            description="CostInstrument task def">
+        <taskdef name="costinstr"
+                 classname="edu.utexas.stac.ant.InstrumentTask"
+                 classpath="lib/CostInstrument.jar"/>
+    </target>
+
+    <macrodef name="benchmark.jar"
+              description="Build the corresponding benchmark">
+        <attribute name="name"
+                   description="Benchmark name"/>
+        <element name="srcs"
+                 description="Source directories and their classpaths"/>
+        <element name="libs"
+                 optional="true"
+                 description="External libraries to include in the final jar"/>
+        <element name="rules"
+                 optional="true"
+                 description="Rename rules to apply"/>
+        <sequential>
+            <local name="classes.dir"/>
+            <property name="classes.dir" value="${classesroot.dir}/@{name}"/>
+
+            <mkdir dir="${classes.dir}"/>
+            <javac includeantruntime="false"
+                   destdir="${classes.dir}"
+                   debug="on">
+                <srcs/>
+                <compilerarg value="-XDignore.symbol.file"/>
+            </javac>
+
+            <mkdir dir="${artifact.original.dir}"/>
+            <jarjar jarfile="${artifact.original.dir}/@{name}.jar"
+                    basedir="${classes.dir}">
+                <libs/>
+                <rules/>
+            </jarjar>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="benchmark.instr"
+              description="Instrument the corresponding benchmark">
+        <attribute name="name"/>
+        <attribute name="fullMode"
+                   description="Whether to instrument in full mode"
+                   default="false"/>
+        <element name="blacklists"
+                 optional="true"
+                 description="List a set of classes that should not be instrumented"/>
+        <sequential>
+            <local name="inputjar"/>
+            <property name="inputjar"
+                      value="${artifact.original.dir}/@{name}.jar"/>
+            <local name="outputjar"/>
+            <property name="outputjar"
+                      value="${artifact.instrumented.dir}/@{name}_instr.jar"/>
+
+            <mkdir dir="${artifact.original.dir}"/>
+            <costinstr input="${inputjar}"
+                       output="${outputjar}"
+                       costjar="${jar.cost}"
+                       fullMode="@{fullMode}">
+                <blacklists/>
+            </costinstr>
+        </sequential>
+    </macrodef>
+
+    <!-- Slowfuzz target -->
+    <target name="slowfuzz.jar"
+            description="Build slowfuzz benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="slowfuzz">
+            <srcs>
+                <src path="benchmarks/slowfuzz"/>
+            </srcs>
+            <rules>
+                <rule pattern="slowfuzz.**" result="patbench.slowfuzz.@1"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="slowfuzz.instr"
+            description="Instrument slowfuzz jar file"
+            depends="costinstr.init,slowfuzz.jar">
+        <benchmark.instr name="slowfuzz">
+            <blacklists>
+                <blacklist pattern="patbench.slowfuzz.regex.Pattern"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- Wise target -->
+    <target name="wise.jar"
+            description="Build wise benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="wise">
+            <srcs>
+                <src path="benchmarks/wise"/>
+                <classpath path="${jar.cost}"/>
+            </srcs>
+            <rules>
+                <rule pattern="edu.berkeley.cs.wise.benchmarks.**" result="patbench.wise.@1"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="wise.instr"
+            description="Instrument wise jar file"
+            depends="costinstr.init,wise.jar">
+        <benchmark.instr name="wise"/>
+    </target>
+
+    <!-- Hash target -->
+    <target name="hash.jar"
+            description="Build hash function benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="hash">
+            <srcs>
+                <src path="benchmarks/hashfunc/src"/>
+            </srcs>
+            <rules>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.hash.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="hash.instr"
+            description="Instrument hash jar file"
+            depends="costinstr.init,hash.jar">
+        <benchmark.instr name="hash"/>
+    </target>
+
+    <!-- Micro benchmark target -->
+    <target name="micro.jar"
+            description="Build microbenchmark as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="micro">
+            <srcs>
+                <src path="benchmarks/micro/src"/>
+            </srcs>
+            <rules>
+                <rule pattern="edu.utexas.microbench.**"
+                      result="patbench.microbench.@1"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="micro.instr"
+            description="Instrument microbenchmark jar file"
+            depends="costinstr.init,micro.jar">
+        <benchmark.instr name="micro"/>
+    </target>
+
+    <!-- Textbook target -->
+    <target name="textbook.jar"
+            description="Build textbook benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="textbook">
+            <srcs>
+                <src path="benchmarks/textbook/src"/>
+            </srcs>
+            <rules>
+                <rule pattern="edu.princeton.cs.algs4.**"
+                      result="patbench.textbook.@1"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="textbook.instr"
+            description="Instrument textbook jar file"
+            depends="costinstr.init,textbook.jar">
+        <benchmark.instr name="textbook"/>
+    </target>
+
+    <!-- STAC engagement2 targets -->
+
+    <!-- blogger -->
+    <target name="blogger.jar"
+            description="Build blogger benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/blogger"/>
+        <local name="srcpath"/>
+        <property name="srcpath" value="src/main/java"/>
+        <benchmark.jar name="blogger">
+            <srcs>
+                <src path="${root}/core/${srcpath}"/>
+                <src path="${root}/webserver/${srcpath}"/>
+                <src path="${root}/websocket/${srcpath}"/>
+                <src path="${root}/java-plugin/${srcpath}"/>
+                <src path="${root}/javawebserver/${srcpath}"/>
+                <src path="${root}/javawebapplication/${srcpath}"/>
+            </srcs>
+            <rules>
+                <rule pattern="fi.iki.elonen.**" result="patbench.blogger.@0"/>
+                <rule pattern="stac.example.**" result="patbench.blogger.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="blogger.instr"
+            description="Instrument blogger jar file"
+            depends="costinstr.init,blogger.jar">
+        <benchmark.instr name="blogger"/>
+    </target>
+
+    <!-- image processor -->
+    <target name="imageprocessor.jar"
+            description="Build imageprocessor benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/imageProcessor"/>
+        <local name="srcpath"/>
+        <property name="srcpath" value="src/main/java"/>
+        <benchmark.jar name="imageprocessor">
+            <srcs>
+                <src path="${root}/${srcpath}"/>
+            </srcs>
+            <rules>
+                <rule pattern="com.stac.**" result="patbench.imageprocessor.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.imageprocessor.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="imageprocessor.instr"
+            description="Instrument imageprocessor jar file"
+            depends="costinstr.init,imageprocessor.jar">
+        <benchmark.instr name="imageprocessor"/>
+    </target>
+
+    <!-- graph analyzer -->
+    <target name="graphanalyzer.jar"
+            description="Build graphanalyzer benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="graphanalyzer">
+            <srcs>
+                <src path="benchmarks/graphAnalyzer/src"/>
+            </srcs>
+            <rules>
+                <rule pattern="Acme.**"
+                      result="patbench.graphanalyzer.@0"/>
+                <rule pattern="graph.**" result="patbench.graphanalyzer.@0"/>
+                <rule pattern="graphviz.**" result="patbench.graphanalyzer.@0"/>
+                <rule pattern="org.**" result="patbench.graphanalyzer.@0"/>
+                <rule pattern="user.commands.**"
+                      result="patbench.graphanalyzer.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="graphanalyzer.instr"
+            description="Instrument graph analyzer jar file"
+            depends="costinstr.init,graphanalyzer.jar">
+        <benchmark.instr name="graphanalyzer"/>
+    </target>
+
+    <!-- text crunchr 3 -->
+    <target name="textcrunchr3.jar"
+            description="Build graphanalyzer benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/textCrunchr_3"/>
+        <benchmark.jar name="textcrunchr3">
+            <srcs>
+                <src path="${root}/src"/>
+                <classpath path="${root}/lib/commons-cli-1.3.jar"/>
+                <classpath path="${root}/lib/commons-compress-1.3.jar"/>
+                <classpath path="${root}/lib/commons-io-2.2.jar"/>
+                <classpath path="${root}/lib/commons-lang3-3.4.jar"/>
+            </srcs>
+            <libs>
+                <zipfileset src="${root}/lib/commons-cli-1.3.jar"/>
+                <zipfileset src="${root}/lib/commons-compress-1.3.jar"/>
+                <zipfileset src="${root}/lib/commons-io-2.2.jar"/>
+                <zipfileset src="${root}/lib/commons-lang3-3.4.jar"/>
+            </libs>
+            <rules>
+                <rule pattern="com.nicnilov.textmeter.**"
+                      result="patbench.textcrunchr3.@0"/>
+                <rule pattern="com.cyberpointllc.stac.**" result="patbench.textcrunchr3.@0"/>
+                <rule pattern="com.ahancock.enigma.**" result="patbench.textcrunchr3.@0"/>
+                <rule pattern="org.apache.**" result="patbench.textcrunchr3.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="textcrunchr3.instr"
+            description="Instrument graph analyzer jar file"
+            depends="costinstr.init,textcrunchr3.jar">
+        <benchmark.instr name="textcrunchr3"/>
+    </target>
+
+    <!-- STAC engagement4 targets -->
+
+    <!-- linear algebra platform -->
+    <target name="linearalgebra.jar"
+            description="Build linear algebra platform benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/linearAlgebraPlatform"/>
+        <benchmark.jar name="linearalgebra">
+            <srcs>
+                <src path="${root}/src/main/java"/>
+                <classpath path="${root}/lib/gson-2.4.jar"/>
+                <classpath path="${root}/lib/nanohttpd-2.2.0.jar"/>
+            </srcs>
+            <libs>
+                <zipfileset src="${root}/lib/gson-2.4.jar"/>
+                <zipfileset src="${root}/lib/nanohttpd-2.2.0.jar"/>
+            </libs>
+            <rules>
+                <rule pattern="com.google.gson.**"
+                      result="patbench.linearalgebra.@0"/>
+                <rule pattern="fi.iki.elonen.**"
+                      result="patbench.linearalgebra.@0"/>
+                <rule pattern="com.example.linalg.**"
+                      result="patbench.linearalgebra.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="linearalgebra.instr"
+            description="Instrument linear algebra platform jar file"
+            depends="costinstr.init,linearalgebra.jar">
+        <benchmark.instr name="linearalgebra"/>
+    </target>
+
+    <!-- gabfeed4 -->
+    <property name="gabfeed.libroot" value="benchmarks/gabfeed_4/lib"/>
+    <path id="gabfeed.lib.paths">
+        <pathelement path="${gabfeed.libroot}/commons-cli-1.3.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-codec-1.9.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-compress-1.3.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-fileupload-1.3.1.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-io-2.2.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-lang3-3.4.jar"/>
+        <pathelement path="${gabfeed.libroot}/commons-logging-1.2.jar"/>
+        <pathelement path="${gabfeed.libroot}/httpclient-4.5.1.jar"/>
+        <pathelement path="${gabfeed.libroot}/httpcore-4.4.3.jar"/>
+        <pathelement path="${gabfeed.libroot}/jline-2.8.jar"/>
+        <pathelement path="${gabfeed.libroot}/mapdb-2.0-beta8.jar"/>
+        <pathelement path="${gabfeed.libroot}/scrypt-1.4.0.jar"/>
+    </path>
+    <target name="gabfeed4.jar"
+            description="Build gabfeed_4 benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/gabfeed_4"/>
+        <local name="srcroot"/>
+        <property name="srcroot" value="${root}/src"/>
+        <local name="libroot"/>
+        <property name="libroot" value="{root}/lib"/>
+
+        <benchmark.jar name="gabfeed4">
+            <srcs>
+                <src path="${srcroot}"/>
+                <classpath refid="gabfeed.lib.paths"/>
+            </srcs>
+            <libs>
+                <zipgroupfileset dir="${gabfeed.libroot}/" includes="*.jar"/>
+                <fileset dir="${srcroot}" excludes="**/*.java"/>
+            </libs>
+            <rules>
+                <rule pattern="org.apache.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="org.fusesource.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="com.lambdaworks.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="org.mapdb.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="jline.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="com.cyberpointllc.**"
+                      result="patbench.gabfeed4.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.gabfeed4.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="gabfeed4.instr"
+            description="Instrument gabfeed_4 jar file"
+            depends="costinstr.init,gabfeed4.jar">
+        <benchmark.instr name="gabfeed4">
+            <blacklists>
+                <blacklist pattern="patbench.gabfeed4.org.mapdb.*"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- airplan_1 -->
+    <property name="airplan.libroot" value="benchmarks/airplan_1/lib"/>
+    <path id="airplan.lib.paths">
+        <pathelement path="${airplan.libroot}/commons-cli-1.3.jar"/>
+        <pathelement path="${airplan.libroot}/commons-codec-1.9.jar"/>
+        <pathelement path="${airplan.libroot}/commons-fileupload-1.3.1.jar"/>
+        <pathelement path="${airplan.libroot}/commons-io-2.2.jar"/>
+        <pathelement path="${airplan.libroot}/commons-lang3-3.4.jar"/>
+        <pathelement path="${airplan.libroot}/commons-logging-1.2.jar"/>
+        <pathelement path="${airplan.libroot}/httpclient-4.5.1.jar"/>
+        <pathelement path="${airplan.libroot}/httpcore-4.4.3.jar"/>
+        <pathelement path="${airplan.libroot}/jline-2.8.jar"/>
+        <pathelement path="${airplan.libroot}/log4j-1.2.17.jar"/>
+        <pathelement path="${airplan.libroot}/mapdb-2.0-beta8.jar"/>
+        <pathelement path="${airplan.libroot}/netty-all-4.0.34.Final.jar"/>
+        <pathelement path="${airplan.libroot}/protobuf-java-3.0.0-beta-2.jar"/>
+    </path>
+
+    <target name="airplan1.jar"
+            description="Build airplan_1 benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/airplan_1"/>
+        <local name="srcroot"/>
+        <property name="srcroot" value="${root}/src"/>
+
+        <benchmark.jar name="airplan1">
+            <srcs>
+                <src path="${srcroot}"/>
+                <classpath refid="airplan.lib.paths"/>
+            </srcs>
+            <libs>
+                <zipgroupfileset dir="${airplan.libroot}" includes="*.jar"/>
+                <fileset dir="${srcroot}" excludes="**/*.java"/>
+            </libs>
+            <rules>
+                <rule pattern="com.google.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="google.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="org.apache.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="org.fusesource.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="io.netty.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="org.mapdb.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="jline.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="edu.cyberapex.**"
+                      result="patbench.airplan1.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.airplan1.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="airplan1.instr"
+            description="Instrument airplan_1 jar file"
+            depends="costinstr.init,airplan1.jar">
+        <benchmark.instr name="airplan1">
+            <blacklists>
+                <blacklist pattern="patbench.airplan1.org.mapdb.*"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- airplan_2 -->
+    <target name="airplan2.jar"
+            description="Build airplan_2 benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/airplan_2"/>
+        <local name="srcroot"/>
+        <property name="srcroot" value="${root}/src"/>
+
+        <benchmark.jar name="airplan2">
+            <srcs>
+                <src path="${srcroot}"/>
+                <classpath refid="airplan.lib.paths"/>
+            </srcs>
+            <libs>
+                <zipgroupfileset dir="${airplan.libroot}/" includes="*.jar"/>
+                <fileset dir="${srcroot}" excludes="**/*.java"/>
+            </libs>
+            <rules>
+                <rule pattern="com.google.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="google.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="org.apache.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="org.fusesource.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="io.netty.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="org.mapdb.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="jline.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="com.networkapex.**"
+                      result="patbench.airplan2.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.airplan2.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="airplan2.instr"
+            description="Instrument airplan_2 jar file"
+            depends="costinstr.init,airplan2.jar">
+        <benchmark.instr name="airplan2">
+            <blacklists>
+                <blacklist pattern="patbench.airplan2.org.mapdb.*"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- airplan_3 -->
+    <target name="airplan3.jar"
+            description="Build airplan_3 benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/airplan_3"/>
+        <local name="srcroot"/>
+        <property name="srcroot" value="${root}/src"/>
+
+        <benchmark.jar name="airplan3">
+            <srcs>
+                <src path="${srcroot}"/>
+                <classpath refid="airplan.lib.paths"/>
+            </srcs>
+            <libs>
+                <zipgroupfileset dir="${airplan.libroot}/" includes="*.jar"/>
+                <fileset dir="${srcroot}" excludes="**/*.java"/>
+            </libs>
+            <rules>
+                <rule pattern="com.google.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="google.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="org.apache.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="org.fusesource.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="io.netty.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="org.mapdb.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="jline.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="net.cybertip.**"
+                      result="patbench.airplan3.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.airplan3.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="airplan3.instr"
+            description="Instrument airplan_3 jar file"
+            depends="costinstr.init,airplan3.jar">
+        <benchmark.instr name="airplan3">
+            <blacklists>
+                <blacklist pattern="patbench.airplan3.org.mapdb.*"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- airplan_5 -->
+    <target name="airplan5.jar"
+            description="Build airplan_5 benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="root"/>
+        <property name="root" value="benchmarks/airplan_5"/>
+        <local name="srcroot"/>
+        <property name="srcroot" value="${root}/src"/>
+
+        <benchmark.jar name="airplan5">
+            <srcs>
+                <src path="${srcroot}"/>
+                <classpath refid="airplan.lib.paths"/>
+            </srcs>
+            <libs>
+                <zipgroupfileset dir="${airplan.libroot}/" includes="*.jar"/>
+                <fileset dir="${srcroot}" excludes="**/*.java"/>
+            </libs>
+            <rules>
+                <rule pattern="com.google.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="google.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="org.apache.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="org.fusesource.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="io.netty.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="org.mapdb.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="jline.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="net.cybertip.**"
+                      result="patbench.airplan5.@0"/>
+                <rule pattern="edu.utexas.**"
+                      result="patbench.airplan5.@0"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="airplan5.instr"
+            description="Instrument airplan_5 jar file"
+            depends="costinstr.init,airplan5.jar">
+        <benchmark.instr name="airplan5">
+            <blacklists>
+                <blacklist pattern="patbench.airplan5.org.mapdb.*"/>
+            </blacklists>
+        </benchmark.instr>
+    </target>
+
+    <!-- guava -->
+    <target name="guava.jar"
+            description="Build guava benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="libroot"/>
+        <property name="libroot" value="benchmarks/guava/lib"/>
+
+        <mkdir dir="${artifact.original.dir}"/>
+        <jarjar jarfile="${artifact.original.dir}/guava.jar">
+            <zipgroupfileset dir="${libroot}/" includes="*.jar"/>
+            <rule pattern="com.google.**"
+                  result="patbench.guava.@1"/>
+        </jarjar>
+    </target>
+
+    <target name="guava.instr"
+            description="Instrument guava jar file"
+            depends="costinstr.init,guava.jar">
+        <benchmark.instr name="guava">
+        </benchmark.instr>
+    </target>
+
+    <!-- vavr -->
+    <target name="vavr.jar"
+            description="Build vavr benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="libroot"/>
+        <property name="libroot" value="benchmarks/vavr/lib"/>
+
+        <mkdir dir="${artifact.original.dir}"/>
+        <jarjar jarfile="${artifact.original.dir}/vavr.jar">
+            <zipgroupfileset dir="${libroot}/" includes="*.jar"/>
+            <rule pattern="io.vavr.**"
+                  result="patbench.vavr.@1"/>
+        </jarjar>
+    </target>
+
+    <target name="vavr.instr"
+            description="Instrument vavr jar file"
+            depends="costinstr.init,vavr.jar">
+        <benchmark.instr name="vavr">
+        </benchmark.instr>
+    </target>
+
+    <!-- jgrapht -->
+    <target name="jgrapht.jar"
+            description="Build jgrapht benchmarks as jar file"
+            depends="jarjar.init">
+        <benchmark.jar name="jgrapht">
+            <srcs>
+                <src path="benchmarks/jgrapht/src"/>
+            </srcs>
+            <rules>
+                <rule pattern="org.jgrapht.**" result="patbench.jgrapht.@1"/>
+            </rules>
+        </benchmark.jar>
+    </target>
+
+    <target name="jgrapht.instr"
+            description="Instrument slowfuzz jar file"
+            depends="costinstr.init,jgrapht.jar">
+        <benchmark.instr name="jgrapht"/>
+    </target>
+
+    <!-- Apache common compress target -->
+    <target name="compress.jar"
+            description="Build common compress benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="libroot"/>
+        <property name="libroot" value="benchmarks/common_compress/lib"/>
+
+        <mkdir dir="${artifact.original.dir}"/>
+        <jarjar jarfile="${artifact.original.dir}/common_compress.jar">
+            <zipgroupfileset dir="${libroot}/" includes="*.jar"/>
+            <rule pattern="org.apache.commons.compress.**"
+                  result="patbench.commons.compress.@1"/>
+        </jarjar>
+    </target>
+
+    <target name="compress.instr"
+            description="Instrument common compress jar file"
+            depends="costinstr.init,compress.jar">
+        <benchmark.instr name="common_compress"/>
+    </target>
+
+    <!-- Apache common math target -->
+    <target name="math.jar"
+            description="Build common compress benchmarks as jar file"
+            depends="jarjar.init">
+        <local name="libroot"/>
+        <property name="libroot" value="benchmarks/common_math/lib"/>
+
+        <mkdir dir="${artifact.original.dir}"/>
+        <jarjar jarfile="${artifact.original.dir}/common_math.jar">
+            <zipgroupfileset dir="${libroot}/" includes="*.jar"/>
+            <rule pattern="org.apache.commons.math3.**"
+                  result="patbench.commons.math3.@1"/>
+        </jarjar>
+    </target>
+
+    <target name="math.instr"
+            description="Instrument common compress jar file"
+            depends="costinstr.init,math.jar">
+        <benchmark.instr name="common_math"/>
+    </target>
+
+    <target name="jar"
+            description="Build all benchmark jar files"
+            depends="slowfuzz.jar,wise.jar,blogger.jar,imageprocessor.jar,graphanalyzer.jar,gabfeed4.jar,linearalgebra.jar,airplan1.jar, airplan2.jar,airplan3.jar,airplan5.jar,guava.jar,vavr.jar,jgrapht.jar"/>
+
+    <target name="instr"
+            description="Build all instrumented jar files"
+            depends="slowfuzz.instr,wise.instr,blogger.instr,imageprocessor.instr,graphanalyzer.instr,gabfeed4.instr,linearalgebra.jar,airplan1.instr, airplan2.instr,airplan3.instr,airplan5.instr,guava.instr,vavr.instr,jgrapht.instr"/>
+
+    <target name="clean">
+        <delete dir="out" failonerror="false"/>
+    </target>
+</project>

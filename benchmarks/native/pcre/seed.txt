@@ -1,0 +1,11 @@
+(?'word'(?'letter'[a-z])(?&word)\k'letter'|[a-z]?)
+([0-9]{4}|[0-9]{1,2})
+^(.*?,){11}P
+(.*)(hello)+
+^abc|abc$
+100\s*mk
+ab{2,4}c
+ab{2,}c
+[^abc]+
+\d\d
+\w+
